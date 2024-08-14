@@ -2,3 +2,6 @@ in
 out
 dist
 input.txt
+build
+dist
+main.spec
