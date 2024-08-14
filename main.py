@@ -1,7 +1,7 @@
 
 def main():
-    inDir  = sys.argv[1]
-    outDir = sys.argv[2]
+    inDir  = input("> Input Directory: ")
+    outDir = input("> Output Directory: ")
 
     # Get file list
     files = os.listdir(inDir)
@@ -28,7 +28,6 @@ def main():
 
 
 if __name__ == "__main__":
-    import sys
     import stdio
     import os
     import time
