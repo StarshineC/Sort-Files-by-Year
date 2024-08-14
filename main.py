@@ -1,4 +1,9 @@
 
+def moveFile(inDir, outDir, fileName, fileOutput):
+    if fileOutput in os.listdir(outDir): moveFile(inDir, outDir, f'{fileName}', f'{fileName}-copy')
+    else: os.rename(f'{inDir}/{fileName}', f'{outDir}/{fileOutput}')
+    return
+
 def main():
     paths = open("input.txt")
     outDir = paths.readline()[:-1]
@@ -31,7 +36,7 @@ def main():
             # Is Directory?
             if not os.path.isfile(path):
                 if not os.path.exists(f'{outDir}/other'): os.makedirs(f'{outDir}/other')
-                os.rename(path, f'{outDir}/other/{file}')
+                moveFile(dir, f'{outDir}/other/', file, file)
                 stdio.writeln(f'|| Moved {file} (other)')
             # Other Files
             else:
@@ -40,7 +45,7 @@ def main():
                 createdYear = int(time.ctime(createdTime)[-4:])
                 # Move to a Folder
                 if not os.path.exists(f'{outDir}/{createdYear}'): os.makedirs(f'{outDir}/{createdYear}')
-                os.rename(path, f'{outDir}/{createdYear}/{file}')
+                moveFile(dir, f'{outDir}/{createdYear}/', file, file)
                 stdio.writeln(f'|| Moved {file} ({createdYear})')
     
     stdio.writeln("Done!")
