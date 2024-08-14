@@ -1,8 +1,57 @@
 
 def main():
+    paths = open("input.txt")
+    outDir = paths.readline()[:-1]
+    inDir  = paths.readlines()
+    paths.close()
+
+
+    for directory in inDir:
+        # I need \n gone
+        dir = directory[:-1]
+
+        # No Directory?
+        if not os.path.exists(dir):
+            stdio.writeln(f'"{dir}" does not exist...')
+            continue
+        
+        # Sorting Message
+        stdio.writeln(f'Sorting "{dir}"...')
+        
+        # List of files in directory
+        files = os.listdir(dir)
+
+        # No Files?
+        if len(files) == 0:
+            stdio.writeln(f'No files in "{dir}"')
+            continue
+        
+        # Yes Files?
+        for file in files:
+            path = f'{dir}/{file}'
+            
+            # Is Directory?
+            if not os.path.isfile(file):
+                if not os.path.exists(f'{outDir}/other'): os.makedirs(f'{outDir}/other')
+                os.rename(path, f'{outDir}/other/{file}')
+            # Other Files
+            else:
+                # Get Year
+                createdTime = os.path.getctime(path)
+                createdYear = int(time.ctime(createdTime)[-4:])
+                # Move to a Folder
+                print(f'{outDir}/{createdYear}')
+                if not os.path.exists(f'{outDir}/{createdYear}'): os.makedirs(f'{outDir}/{createdYear}')
+                os.rename(path, f'{outDir}/{createdYear}/{file}')
+                stdio.writeln(f'Moved {file}')
+    
+    return
+
+    """
     inDir  = input("> Input Directory: ")
     outDir = input("> Output Directory: ")
 
+    
     # Get file list
     files = os.listdir(inDir)
 
@@ -21,7 +70,7 @@ def main():
         if not os.path.exists(f'{outDir}/{createdYear}'): os.makedirs(f'{outDir}/{createdYear}')
         os.rename(path, f'{outDir}/{createdYear}/{file}')
         stdio.writeln(f'Moved {path} to {outDir}/{createdYear}/{file}')
-
+    """
 
     stdio.writeln("-=-=-= Completed Sorting! =-=-=-")
     return
